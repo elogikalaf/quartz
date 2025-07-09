@@ -1,34 +1,18 @@
 
----
-
-1. account and access
-    - [ ] [[#Physical console access]]
-    - [ ] [[#Session configuration files]]
-    - [ ] [[#Login banners]]
-    - [ ] [[#Passwords policy]]
-    - [ ] [[#Restrict root logins]]
-
-
-2. auditd
-    - [ ] [[#Enable auditing for processes which start prior to the audit daemon]]
-    - [ ] [[#Enable auditd service]]
-    - [ ] [[#Max log file size]]
-    - [ ] [[#Notification on low disk space]]
-    - [ ] [[#Action on low disk space]]
-
+The most important rule of system hardening that reasonable admins follow is
 
 
 > **`A production environment is the real instance of the app so make your changes on the dev/test!`**
 
-The second most important rule is:
+The second most important rule is
 
 > **`Don’t do anything that will affect the availability of the service or your system.`**
 
-The third rule is:
+The third rule is
 
 > **`Make backups of the entire virtual machine and important components.`**
 
-And the last rule is:
+And the last rule is
 
 > **`Think about what you actually do with your server.`**
 
@@ -58,6 +42,8 @@ This is the easiest way to gain unauthorised access to a Linux system is to boot
 
 I also recommend change or set these options in `emergency.service`. It is default target when an issue kicks in during the boot process.
 
+[C2S/CIS: CCE-27287-2 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_require_singleuser_auth)
+
 
 ### Session configuration files
 
@@ -78,7 +64,10 @@ A misconfigured `umask` value could result in files with excessive permissions t
 ```shell
 # Edit /etc/profile and /etc/bashrc:
 umask 027
+
 ```
+
+[C2S/CIS: CCE-80202-5 (unknown)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc); [C2S/CIS: CCE-80204-1 (unknown)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_umask_etc_profile)
 
 
 ### Login banners
@@ -93,8 +82,6 @@ Pre-logon warning messages can deter unauthorized use, increase IT security awar
 #### Solution
 
 
-
-
 ```
 UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED
  You must have explicit, authorized permission to access or configure this device.
@@ -102,6 +89,8 @@ UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED
 criminal penalties.
  All activities performed on this device are logged and monitored.
 ```
+
+[C2S/CIS: CCE-27303-7 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_banner_etc_issue)
 
 
 ### Passwords policy
@@ -139,10 +128,13 @@ Disabling inactive accounts ensures that accounts which may not have been respon
  `Edit /etc/login.defs and set password maximum age:`
 `PASS_MAX_DAYS 90
 
+[C2S/CIS: CCE-26486-1 (unknown)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_password_warn_age_login_defs); [C2S/CIS: CCE-27002-5 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_password_warn_age_login_defs); [C2S/CIS: CCE-27051-2 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_password_warn_age_login_defs)
 ###### Set account expiration
 
 `Edit /etc/default/useradd:`
 `INACTIVE=30`
+
+[C2S/CIS: CCE-27355-7 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_account_disable_post_pw_expiration)
 
 
 
@@ -163,6 +155,8 @@ awk -F: '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd | xargs passwd -l
 
 ```
 
+[C2S/CIS: CCE-27175-9 (High)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_accounts_no_uid_except_zero)
+
 ###### Protect direct root logins
 
 Disabling direct root logins ensures proper accountability and multifactor authentication to privileged accounts.
@@ -171,6 +165,7 @@ Disabling direct root logins ensures proper accountability and multifactor authe
 echo > /etc/securetty
 ```
 
+[C2S/CIS: CCE-27294-8 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_no_direct_root_logins)
 
 ###### Protect direct root logins
 
@@ -182,7 +177,7 @@ Ensuring shells are not given to system accounts upon login makes it more diffic
 usermod -s /sbin/nologin SYSACCT
 ```
 
-
+[C2S/CIS: CCE-26448-1 (Medium)](https://static.open-scap.org/ssg-guides/ssg-rhel7-guide-C2S.html#xccdf_org.ssgproject.content_rule_no_shelllogin_for_systemaccounts)
 #### Comments
 
 

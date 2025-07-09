@@ -18,8 +18,6 @@
 
 
 
-The most important rule of system hardening that reasonable admins follow is:
-
 > **`A production environment is the real instance of the app so make your changes on the dev/test!`**
 
 The second most important rule is:

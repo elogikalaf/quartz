@@ -1,16 +1,15 @@
 
 ---
 
-- Accounts and access
+1. account and access
     - [ ] [[#Physical console access]]
     - [ ] [[#Session configuration files]]
     - [ ] [[#Login banners]]
     - [ ] [[#Passwords policy]]
     - [ ] [[#Restrict root logins]]
 
----
 
-- Auditd3
+2. auditd
     - [ ] [[#Enable auditing for processes which start prior to the audit daemon]]
     - [ ] [[#Enable auditd service]]
     - [ ] [[#Max log file size]]
